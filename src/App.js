@@ -50,6 +50,7 @@ const App = () => {
         audioPlayer.play().catch(error => console.error('Error playing audio:', error));
       }
     }
+    // eslint-disable-next-line
   }, [currentTrackIndex, playlist]);
 
   const handleAudioEnded = () => {
