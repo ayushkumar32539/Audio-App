@@ -18,23 +18,39 @@ const App = () => {
     if (lastPlayingTrackIndex !== null) {
       setCurrentTrackIndex(lastPlayingTrackIndex);
     }
+
+    const lastVolume = parseFloat(localStorage.getItem('volume'));
+    if (!isNaN(lastVolume)) {
+      setVolume(lastVolume);
+    }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('playlist', JSON.stringify(playlist));
     localStorage.setItem('currentTrackIndex', JSON.stringify(currentTrackIndex));
-  }, [playlist, currentTrackIndex]);
+    localStorage.setItem('volume', JSON.stringify(volume));
+  }, [playlist, currentTrackIndex, volume]);
 
   useEffect(() => {
     if (audioPlayer) {
       audioPlayer.volume = volume;
-      if (isPlaying && !audioPlayer.paused) {
-        audioPlayer.play();
+      if (isPlaying) {
+        audioPlayer.play().catch(error => console.error('Error playing audio:', error));
       } else {
         audioPlayer.pause();
       }
     }
   }, [isPlaying, volume, audioPlayer]);
+
+  useEffect(() => {
+    if (audioPlayer) {
+      audioPlayer.src = URL.createObjectURL(playlist[currentTrackIndex]);
+      audioPlayer.load();
+      if (isPlaying) {
+        audioPlayer.play().catch(error => console.error('Error playing audio:', error));
+      }
+    }
+  }, [currentTrackIndex, playlist]);
 
   const handleAudioEnded = () => {
     setCurrentTrackIndex((prevIndex) => (prevIndex + 1) % playlist.length);
@@ -42,7 +58,7 @@ const App = () => {
 
   const handleFileUpload = (event) => {
     const newTrack = event.target.files[0];
-    if(newTrack){
+    if (newTrack) {
       setPlaylist([...playlist, newTrack]);
     }
   };
@@ -61,12 +77,6 @@ const App = () => {
 
   const handleVolumeChange = (event) => {
     setVolume(parseFloat(event.target.value));
-  };
-
-  const handleCanPlayThrough = () => {
-    if (isPlaying && audioPlayer && playlist.length > 0) {
-      audioPlayer.play();
-    }
   };
 
   const formatTime = (time) => {
@@ -125,7 +135,6 @@ const App = () => {
           src={URL.createObjectURL(playlist[currentTrackIndex])}
           onEnded={handleAudioEnded}
           autoPlay={playlist.length === 1} // Only autoplay if there's only one track
-          onCanPlayThrough={handleCanPlayThrough}
           className="visually-hidden"
         />
       )}
