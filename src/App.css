@@ -1,38 +1,127 @@
-.App {
-  text-align: center;
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  height: 100vh;
+  background-color: #333;
+  color: #fff;
+  transition: background-color 0.5s ease;
 }
 
-.App-link {
-  color: #61dafb;
+.file-input {
+  opacity: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.file-upload-button {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.file-upload-button:hover {
+  background-color: #0056b3;
+}
+
+.playlist-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.track-item {
+  padding: 10px;
+}
+
+.separator {
+  border: none;
+  border-top: 2px solid #777;
+  margin: 5px 0;
+}
+
+.audio-player-container {
+  width: 100%;
+  position: relative;
+  transition: opacity 0.5s ease;
+}
+
+.audio-controls {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.control-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  font-size: 24px;
+  margin: 0 10px;
+}
+
+.control-button:hover {
+  background-color: #0056b3;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.progress {
+  width: calc(100% - 150px);
+  margin: 0 10px;
+}
+
+.time-display {
+  width: 80px;
+}
+
+.volume-container {
+  display: flex;
+  align-items: center;
+  /* position: absolute; */
+  bottom: 10px;
+  left: 10px;
+  width: calc(100% - 20px);
+}
+
+.volume-slider {
+  width: 100px;
+  margin-right: 10px;
+}
+
+.volume-percentage {
+  font-size: 14px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }
